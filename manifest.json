@@ -1,7 +1,7 @@
 {
-  "name": "KBify Image Suite",
+  "name": "KBify",
   "short_name": "KBify",
-  "description": "Premium multi-format image compression tool for modern browsers.",
+  "description": "Premium multi-format file compression suite for images and documents.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
