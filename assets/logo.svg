@@ -1,0 +1,32 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF512F" />
+      <stop offset="100%" stop-color="#DD2476" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background Shape -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#mainGrad)" filter="url(#shadow)"/>
+  
+  <!-- Glass Layer -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="white" fill-opacity="0.05"/>
+  
+  <!-- Logo Monogram -->
+  <g transform="translate(256, 260)">
+    <text text-anchor="middle" dominant-baseline="middle" font-family="'Outfit', sans-serif" font-size="180" font-weight="900" fill="white" letter-spacing="-5">KB</text>
+  </g>
+  
+  <!-- Compression Elements (Squeeze Brackets) -->
+  <path d="M160 120H130C118.954 120 110 128.954 110 140V200" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.6"/>
+  <path d="M352 120H382C393.046 120 402 128.954 402 140V200" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.6"/>
+  <path d="M110 312V372C110 383.046 118.954 392 130 392H160" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.6"/>
+  <path d="M402 312V372C402 383.046 393.046 392 382 392H352" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.6"/>
+  
+  <!-- Squeeze Arrows -->
+  <path d="M256 90V140M236 120L256 140L276 120" stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M256 422V372M236 392L256 372L276 392" stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

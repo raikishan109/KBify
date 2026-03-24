@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KBify - Multi Compressor</title>
-    <link rel="icon" type="image/png"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%233b82f6'/><stop offset='100%25' style='stop-color:%23f97316'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23grad)'/><text x='50' y='65' font-family='Arial,sans-serif' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>KB</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
     <meta name="description"
         content="Compress your images instantly with our modern image compression tool. Support for JPG, PNG, and WEBP formats.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <style>
         * {
@@ -31,6 +32,7 @@
             --success: #10b981;
             --error: #ef4444;
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --navbar-height: 80px;
         }
 
         [data-theme="light"] {
@@ -44,12 +46,15 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
+            background-color: var(--bg-primary);
             color: var(--text-primary);
-            min-height: 100vh;
-            transition: background 0.3s ease, color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container {
@@ -67,10 +72,7 @@
         h1 {
             font-size: 3rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
             animation: fadeInDown 0.6s ease;
         }
@@ -86,9 +88,10 @@
             top: 0;
             left: 0;
             width: 100%;
+            height: var(--navbar-height);
             background: var(--bg-secondary);
             border-bottom: 2px solid var(--border-color);
-            padding: 1rem 2rem;
+            padding: 0 2rem;
             z-index: 999;
             box-shadow: var(--shadow);
             display: flex;
@@ -96,31 +99,171 @@
             align-items: center;
         }
 
-        .navbar-brand {
-            font-size: 1.8rem;
-            font-weight: 700;
+        /* Compressor Card Styles */
+        .navbar-left-wrapper {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .navbar-logo {
             width: 45px;
             height: 45px;
+            object-fit: contain;
+        }
+
+        .menu-toggle {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
             border-radius: 12px;
-            object-fit: cover;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .menu-toggle:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .brand-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .tab-btn.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border-color: transparent;
+        }
+
+        /* Tool Grid Styles (5 cards per row) */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .tool-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tool-card:hover {
+            border-color: var(--text-primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            background: var(--bg-tertiary);
+        }
+
+        .tool-card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+        }
+
+        .tool-card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tool-card svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .main-card {
+            display: none;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .main-card.active {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .tool-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .tool-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .brand-name {
+            display: flex;
+            align-items: center;
+            font-family: 'Outfit', 'Inter', sans-serif;
+            letter-spacing: -0.5px;
         }
 
         .navbar-brand .kb {
-            color: #3b82f6;
+            color: var(--text-primary);
         }
 
         .navbar-brand .ify {
-            color: #f97316;
+            background: linear-gradient(135deg, #c471ed 0%, #f64f59 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-subtext {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #ffffff;
+            font-weight: 700;
+            padding-left: 2px;
+            opacity: 0.9;
         }
 
         .container {
-            margin-top: 80px;
+            margin-top: var(--navbar-height);
+            flex: 1;
         }
 
         .file-type-tabs {
@@ -231,9 +374,8 @@
         }
 
         .btn {
-            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-            background-size: 200% 200%;
-            color: white;
+            background: var(--text-primary);
+            color: var(--bg-primary);
             border: none;
             padding: 0.875rem 2rem;
             border-radius: 12px;
@@ -241,16 +383,16 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .btn:hover {
-            background-position: right center;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.6);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+            filter: brightness(0.9);
         }
 
         .btn:active {
@@ -744,20 +886,43 @@
         }
 
         @media (max-width: 768px) {
+            :root {
+                --navbar-height: 70px;
+            }
+
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .container {
                 padding: 1rem;
             }
 
+            .main-card {
+                padding: 1.5rem;
+                border-radius: 16px;
+                border-width: 1px;
+            }
+
             .upload-section {
                 padding: 2rem 1rem;
             }
 
+            .tool-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .tool-card {
+                padding: 1.25rem 1rem;
+            }
+
+            .tool-card-title {
+                font-size: 0.8rem;
+            }
+
             .size-options {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .preview-section {
@@ -766,18 +931,186 @@
 
             .action-buttons {
                 flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .action-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .navbar {
+                padding: 0 1rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.5rem;
+                gap: 0px !important;
+            }
+
+            .navbar-left-wrapper {
+                gap: 0.25rem !important;
+            }
+
+            .brand-text-wrapper {
+                gap: 0px !important;
+            }
+
+            .theme-toggle span {
+                display: none;
             }
 
             .theme-toggle {
-                top: 1rem;
-                right: 1rem;
+                padding: 0.5rem;
+                width: 40px;
+                height: 40px;
+                justify-content: center;
             }
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .sidebar.active {
+                transform: translateX(220px);
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .tool-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+            
+            .navbar-logo {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .brand-subtext {
+                letter-spacing: 1px;
+                font-size: 0.65rem;
+                display: block;
+                color: #ffffff;
+                opacity: 0.9;
+            }
+        }
+
+        /* Sidebar Styles */
+        .sidebar-overlay {
+            position: fixed;
+            top: var(--navbar-height);
+            left: 0;
+            width: 100%;
+            height: calc(100vh - var(--navbar-height));
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: var(--navbar-height);
+            left: -240px; /* Base hidden position slightly larger than mobile width */
+            width: 240px;
+            height: calc(100vh - var(--navbar-height));
+            background: var(--bg-secondary);
+            border-right: 2px solid var(--border-color);
+            z-index: 998;
+            padding: 1rem;
+            padding-top: 1.5rem;
+            box-shadow: 10px 0 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .sidebar.active {
+            transform: translateX(240px);
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .sidebar-close {
+            background: var(--bg-tertiary);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+        .nav-item.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            font-weight: 700;
         }
 
         .footer {
             text-align: center;
             padding: 2rem;
-            margin-top: 3rem;
+            margin-top: auto;
             color: var(--text-secondary);
             font-size: 0.9rem;
             border-top: 1px solid var(--border-color);
@@ -788,10 +1121,7 @@
         }
 
         .footer a {
-            background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 600;
             transition: opacity 0.3s ease;
@@ -806,11 +1136,23 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="navbar-brand">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%233b82f6'/%3E%3Cstop offset='100%25' style='stop-color:%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='100' cy='100' r='90' fill='url(%23bg)'/%3E%3Ctext x='100' y='135' font-family='Arial,sans-serif' font-size='80' font-weight='bold' fill='white' text-anchor='middle'%3EKB%3C/text%3E%3Cg transform='translate(140,40)'%3E%3Crect x='0' y='0' width='12' height='12' fill='%233b82f6'/%3E%3Crect x='15' y='0' width='12' height='12' fill='%23f97316'/%3E%3Crect x='0' y='15' width='12' height='12' fill='%23f97316'/%3E%3Crect x='15' y='15' width='12' height='12' fill='%233b82f6'/%3E%3Crect x='30' y='0' width='12' height='12' fill='%233b82f6'/%3E%3Crect x='30' y='15' width='12' height='12' fill='%23f97316'/%3E%3Crect x='0' y='30' width='12' height='12' fill='%23f97316'/%3E%3Crect x='15' y='30' width='12' height='12' fill='%233b82f6'/%3E%3C/g%3E%3C/svg%3E"
+        <div class="navbar-left-wrapper">
+            <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="15" y2="18"></line>
+                </svg>
+            </button>
+            <div class="navbar-brand">
+            <img src="assets/logo.svg"
                 alt="KBify Logo" class="navbar-logo">
-            <div>
-                <span class="kb">KB</span><span class="ify">ify</span>
+            <div class="brand-text-wrapper">
+                <div class="brand-name">
+                    <span class="kb">KB</span><span class="ify">ify</span>
+                </div>
+                <div class="brand-subtext">2026</div>
+            </div>
             </div>
         </div>
         <div class="theme-toggle" onclick="toggleTheme()">
@@ -821,81 +1163,114 @@
         </div>
     </nav>
 
+    <!-- Sidebar Overlay & Container -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-nav">
+            <a href="#" class="nav-item dashboard-nav" onclick="switchFileType('dashboard'); toggleSidebar()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a>
+            <a href="#" class="nav-item image-nav" onclick="switchFileType('image'); toggleSidebar()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Image
+            </a>
+            <a href="#" class="nav-item doc-nav" onclick="switchFileType('pdf'); toggleSidebar()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00 2 2h12a2 2 0 00 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Document
+            </a>
+        </div>
+    </div>
+
     <div class="container">
         <header>
-            <h1 id="mainTitle">Image Compressor</h1>
-            <p class="subtitle" id="mainSubtitle">Compress your images instantly with advanced compression</p>
+            <h1 id="mainTitle">KBify Image Suite</h1>
+            <p class="subtitle" id="mainSubtitle">Choose a tool to start compressing your images</p>
         </header>
 
-        <div class="file-type-tabs">
-            <button class="tab-btn active" onclick="switchFileType('image')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    style="display: inline-block; vertical-align: middle; margin-right: 5px;">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <polyline points="21 15 16 10 5 21" />
-                </svg>
-                Image
-            </button>
-            <button class="tab-btn" onclick="switchFileType('pdf')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    style="display: inline-block; vertical-align: middle; margin-right: 5px;">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                    <line x1="16" y1="13" x2="8" y2="13" />
-                    <line x1="16" y1="17" x2="8" y2="17" />
-                    <polyline points="10 9 9 9 8 9" />
-                </svg>
-                PDF
-            </button>
+        <div class="tool-grid" id="toolDashboard">
+            <!-- Image Tools -->
+            <div class="tool-card image-tool" onclick="openTool('Compress JPG')">
+                <div class="tool-card-icon" style="color: #ff4d4d; background: rgba(255, 77, 77, 0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+                <div class="tool-card-title">JPG Compressor</div>
+            </div>
+            <div class="tool-card image-tool" onclick="openTool('Compress PNG')">
+                <div class="tool-card-icon" style="color: #3b82f6; background: rgba(59, 130, 246, 0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                <div class="tool-card-title">PNG Compressor</div>
+            </div>
+            <div class="tool-card image-tool" onclick="openTool('Compress WEBP')">
+                <div class="tool-card-icon" style="color: #10b981; background: rgba(16, 185, 129, 0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10m0 0l-4-4m4 4l4-4M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+                <div class="tool-card-title">WEBP Compressor</div>
+            </div>
+            <div class="tool-card image-tool" onclick="openTool('Bulk Compress')">
+                <div class="tool-card-icon" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 10l5 5-5 5M7 10l-5 5 5 5M22 15H2"/></svg></div>
+                <div class="tool-card-title">Bulk Compress</div>
+            </div>
+            <div class="tool-card image-tool" onclick="openTool('Instant Squeeze')">
+                <div class="tool-card-icon" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14l6-6 6 6M4 6l6 6 6-6"/></svg></div>
+                <div class="tool-card-title">Fast Squeeze</div>
+            </div>
+            
+            <!-- PDF Tools (Shown only in PDF node) -->
+            <div class="tool-card pdf-tool" style="display:none;" onclick="openTool('Compress PDF')">
+                <div class="tool-card-icon" style="color: #ef4444; background: rgba(239, 68, 68, 0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 00 2 2h12a2 2 0 00 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+                <div class="tool-card-title">PDF Compressor</div>
+            </div>
         </div>
 
-        <div class="upload-section" id="uploadSection">
-            <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-                <div class="upload-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="17 8 12 3 7 8" />
-                        <line x1="12" y1="3" x2="12" y2="15" />
-                    </svg>
-                </div>
-                <p class="upload-text">Click to upload or drag & drop</p>
-                <p class="upload-hint" id="uploadHint">Supports JPG, PNG, WEBP</p>
-            </div>
-            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp">
-        </div>
-
-        <div class="options-section" id="optionsSection">
-            <div class="option-group">
-                <label class="option-label">Target File Size</label>
-                <div class="size-options">
-                    <button class="size-btn" onclick="selectSize(50)">50 KB</button>
-                    <button class="size-btn" onclick="selectSize(100)">100 KB</button>
-                    <button class="size-btn" onclick="selectSize(200)">200 KB</button>
-                    <button class="size-btn active" onclick="selectSize('custom')">Custom</button>
-                </div>
-                <input type="number" class="custom-input" id="customSize" placeholder="Enter size in KB" value="100"
-                    min="1">
-            </div>
-
-            <div class="option-group">
-                <label class="option-label">
-                    Image Quality
-                    <span class="slider-value" id="qualityValue">0.8</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" class="slider" id="qualitySlider" min="0.1" max="1" step="0.1" value="0.8">
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <button class="btn" onclick="compressImage()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="23 4 23 10 17 10" />
-                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-                    </svg>
-                    Compress Image
+        <div class="main-card" id="mainCompressorCard">
+            <!-- Back Button -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <button class="btn secondary" onclick="closeTool()" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+                    ← Back to Tools
                 </button>
+                <div id="activeToolIndicator" style="font-weight: 700; color: #ef4444; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;"></div>
+            </div>
+
+            <div class="card-body">
+                <div class="upload-section" id="uploadSection" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-box">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" y1="3" x2="12" y2="15" />
+                            </svg>
+                        </div>
+                        <p class="upload-text">Click to upload or drag & drop</p>
+                        <p class="upload-hint" id="uploadHint">Supports JPG, PNG, WEBP</p>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp">
+                </div>
+
+                <div class="options-section" id="optionsSection">
+                    <div class="option-group">
+                        <label class="option-label">Target File Size</label>
+                        <div class="size-options">
+                            <button class="size-btn" onclick="selectSize(50)">50 KB</button>
+                            <button class="size-btn" onclick="selectSize(100)">100 KB</button>
+                            <button class="size-btn" onclick="selectSize(200)">200 KB</button>
+                            <button class="size-btn active" onclick="selectSize('custom')">Custom</button>
+                        </div>
+                        <input type="number" class="custom-input" id="customSize" placeholder="Enter size in KB" value="100" min="1">
+                    </div>
+
+                    <div class="option-group">
+                        <label class="option-label">
+                            Image Quality
+                            <span class="slider-value" id="qualityValue">0.8</span>
+                        </label>
+                        <div class="slider-container">
+                            <input type="range" class="slider" id="qualitySlider" min="0.1" max="1" step="0.1" value="0.8">
+                        </div>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <button class="btn" onclick="compressImage()">
+                            Compress Now
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1037,11 +1412,20 @@
             localStorage.setItem('theme', newTheme);
         }
 
-        // Load saved theme
+        // Load saved theme and set initial view
         window.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             if (savedTheme === 'light') {
                 toggleTheme();
+            }
+            
+            // Restore Section & Tool
+            const savedSection = localStorage.getItem('currentSection') || 'dashboard';
+            const savedTool = localStorage.getItem('activeTool');
+            
+            switchFileType(savedSection);
+            if(savedTool) {
+                openTool(savedTool);
             }
         });
 
@@ -1055,27 +1439,35 @@
         // File Type Switch
         function switchFileType(type) {
             currentFileType = type;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const mainTitle = document.getElementById('mainTitle');
-            const mainSubtitle = document.getElementById('mainSubtitle');
-            const uploadHint = document.getElementById('uploadHint');
-            const fileInput = document.getElementById('fileInput');
-
-            if (type === 'pdf') {
-                mainTitle.textContent = 'PDF Compressor';
-                mainSubtitle.textContent = 'Compress your PDF files instantly';
-                uploadHint.textContent = 'Supports PDF files';
-                fileInput.accept = 'application/pdf';
+            localStorage.setItem('currentSection', type);
+            localStorage.removeItem('activeTool'); // Clear active tool when switching sections
+            closeTool(false); // Close tool but don't clear storage inside
+            
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            
+            // Show/Hide relevant tools in grid
+            const imgTools = document.querySelectorAll('.image-tool');
+            const pdfTools = document.querySelectorAll('.pdf-tool');
+            
+            if (type === 'image') {
+                document.querySelector('.image-nav').classList.add('active');
+                imgTools.forEach(t => t.style.display = 'flex');
+                pdfTools.forEach(t => t.style.display = 'none');
+                document.getElementById('mainTitle').textContent = 'KBify Image Suite';
+            } else if (type === 'pdf') {
+                document.querySelector('.doc-nav').classList.add('active');
+                imgTools.forEach(t => t.style.display = 'none');
+                pdfTools.forEach(t => t.style.display = 'flex');
+                document.getElementById('mainTitle').textContent = 'KBify Document Suite';
             } else {
-                mainTitle.textContent = 'Image Compressor';
-                mainSubtitle.textContent = 'Compress your images instantly with advanced compression';
-                uploadHint.textContent = 'Supports JPG, PNG, WEBP';
-                fileInput.accept = 'image/jpeg,image/png,image/webp';
+                // Dashboard mode - show all tools
+                document.querySelector('.dashboard-nav').classList.add('active');
+                imgTools.forEach(t => t.style.display = 'flex');
+                pdfTools.forEach(t => t.style.display = 'flex');
+                document.getElementById('mainTitle').textContent = 'KBify Ultimate Suite';
             }
-
-            reset();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Size Selection
@@ -1428,6 +1820,61 @@
         function hideMessages() {
             document.getElementById('errorMessage').classList.remove('active');
             document.getElementById('successMessage').classList.remove('active');
+        }
+
+        // Tool Dashboard Functions
+        function openTool(name) {
+            localStorage.setItem('activeTool', name);
+            document.getElementById('toolDashboard').style.display = 'none';
+            document.getElementById('mainCompressorCard').classList.add('active');
+            document.getElementById('mainTitle').textContent = name;
+            document.getElementById('activeToolIndicator').textContent = name;
+            document.getElementById('mainSubtitle').textContent = 'Upload your file to begin ' + name.toLowerCase();
+            
+            // Auto-switch internal mode based on tool name
+            if(name.includes('PDF')) {
+                currentFileType = 'pdf';
+                document.getElementById('uploadHint').textContent = 'Supports PDF files';
+                document.getElementById('fileInput').accept = 'application/pdf';
+            } else {
+                currentFileType = 'image';
+                document.getElementById('uploadHint').textContent = 'Supports JPG, PNG, WEBP';
+                document.getElementById('fileInput').accept = 'image/jpeg,image/png,image/webp';
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeTool(clearStorage = true) {
+            if(clearStorage) localStorage.removeItem('activeTool');
+            document.getElementById('mainCompressorCard').classList.remove('active');
+            document.getElementById('toolDashboard').style.display = 'grid';
+            
+            // Update title based on section
+            const section = currentFileType === 'image' ? 'Image Suite' : (currentFileType === 'pdf' ? 'Document Suite' : 'Ultimate Suite');
+            document.getElementById('mainTitle').textContent = 'KBify ' + section;
+            document.getElementById('mainSubtitle').textContent = 'Choose a tool to start compressing your files';
+            reset();
+        }
+
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scroll when sidebar is open
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('PWA Service Worker registered'))
+                    .catch(err => console.log('PWA Error: ', err));
+            });
         }
     </script>
 </body>
