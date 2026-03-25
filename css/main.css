@@ -107,9 +107,8 @@ h1 {
 }
 
 .menu-toggle {
-    background: var(--bg-tertiary);
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
+    background: transparent;
+    border: none;
     width: 45px;
     height: 45px;
     display: flex;
