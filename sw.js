@@ -1,5 +1,4 @@
-// PWA Service Worker for KBify
-const CACHE_NAME = 'kbify-v1.1';
+const CACHE_NAME = 'kbify-v1.3';
 const ASSETS = [
     './',
     './index.html',
@@ -14,6 +13,8 @@ const ASSETS = [
     './js/tools/registry.js',
     './js/tools/image/compressor.js',
     './js/tools/pdf/compressor.js',
+    './js/tools/pdf/editor.js',
+    './js/tools/pdf/viewer.js',
     './js/utils/ui-utils.js',
     './js/utils/file-utils.js',
     './assets/logo.svg',

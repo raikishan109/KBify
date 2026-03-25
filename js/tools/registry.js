@@ -6,6 +6,7 @@ const DOC_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const BULK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 10l5 5-5 5M7 10l-5 5 5 5M22 15H2"/></svg>';
 const FAST_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14l6-6 6 6M4 6l6 6 6-6"/></svg>';
 const DOWNLOAD_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10m0 0l-4-4m4 4l4-4M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>';
+const EDIT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
 
 export const TOOLS = {
     'JPG Compressor': {
@@ -49,6 +50,13 @@ export const TOOLS = {
         icon: DOC_ICON,
         color: '#ef4444',
         hint: 'Supports PDF documents'
+    },
+    'PDF Editor': {
+        type: 'pdf',
+        accept: 'application/pdf',
+        icon: EDIT_ICON,
+        color: '#f59e0b',
+        hint: 'Modify your PDF documents'
     }
 };
 

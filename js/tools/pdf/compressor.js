@@ -57,7 +57,7 @@ function handlePDFSuccess() {
         compressed: store.compressedBlob.size,
         reduction: reduction,
         saved: saved
-    });
+    }, 'PDF Compressed Successfully!');
 
     Toast.show('PDF compressed successfully!', 'success');
 }

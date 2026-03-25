@@ -119,6 +119,7 @@ h1 {
     color: var(--text-primary);
     -webkit-tap-highlight-color: transparent;
     outline: none;
+    border-radius: 12px;
 }
 
 .menu-toggle:hover {
@@ -1106,4 +1107,78 @@ input[type="file"] {
 
 .footer a:hover {
     opacity: 0.8;
+}
+
+/* PDF Visual Editor Styles */
+.pdf-page-wrapper {
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: white;
+    user-select: none;
+}
+
+.pdf-page-wrapper canvas {
+    display: block;
+    max-width: 100%;
+    height: auto !important;
+}
+
+.pdf-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    cursor: crosshair;
+}
+
+.pdf-text-element {
+    position: absolute;
+    padding: 2px 4px;
+    border: 1px dashed transparent;
+    cursor: move;
+    min-width: 20px;
+    min-height: 20px;
+    white-space: pre-wrap;
+    font-family: Helvetica, Arial, sans-serif;
+    outline: none;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pdf-text-element:hover {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.pdf-text-element:focus {
+    border-color: #ef4444;
+    border-style: solid;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.pdf-delete-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border: none;
+    z-index: 30;
+}
+
+.pdf-text-element:hover .pdf-delete-btn {
+    display: flex;
 }

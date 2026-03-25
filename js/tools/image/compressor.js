@@ -3,6 +3,7 @@ import { store } from '../../state.js';
 import { Toast, formatFileSize } from '../../utils/ui-utils.js';
 import { Modal } from '../../components/Modal.js';
 import { compressPDF } from '../pdf/compressor.js';
+import { editPDF } from '../pdf/editor.js';
 
 export async function processFile() {
     if (!store.originalFile) {
@@ -10,8 +11,12 @@ export async function processFile() {
         return;
     }
 
-    if (store.currentFileType === 'pdf') {
+    if (store.activeTool === 'PDF Compressor') {
         return await compressPDF();
+    }
+    
+    if (store.activeTool === 'PDF Editor') {
+        return await editPDF();
     }
 
     const targetSizeKB = parseInt(document.getElementById('customSize')?.value);

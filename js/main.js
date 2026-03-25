@@ -66,6 +66,12 @@ function setupEvents() {
         }
     });
 
+    // PDF Actions Selection
+    on('#pdfOptions .size-btn', 'click', (e, btn) => {
+        document.querySelectorAll('#pdfOptions .size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    });
+
     // Quality Control
     on('#qualitySlider', 'input', (e) => {
         const valEl = document.getElementById('qualityValue');

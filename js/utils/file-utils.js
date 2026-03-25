@@ -2,18 +2,26 @@
 import { store } from '../state.js';
 import { Toast, formatFileSize } from './ui-utils.js';
 
+/**
+ * Entry point for file selection from input
+ */
 export function handleFileSelect(e) {
     const file = e.target.files[0];
     if (file) handleFile(file);
 }
 
+/**
+ * Validation and State update
+ */
 export function handleFile(file) {
+    // 1. Validate Image Type
     if (store.currentFileType === 'image' && !file.type.match('image/(jpeg|png|webp)')) {
         Toast.show('Please select a valid image file (JPG, PNG, or WEBP)', 'error');
         return;
     }
 
-    if (store.currentFileType === 'pdf' && file.type !== 'application/pdf') {
+    // 2. Validate PDF Type (Permissive check for different browser MIME types)
+    if (store.currentFileType === 'pdf' && !file.type.includes('pdf')) {
         Toast.show('Please select a valid PDF file', 'error');
         return;
     }
@@ -22,41 +30,56 @@ export function handleFile(file) {
     updateFileUI(file);
 }
 
+/**
+ * Update the DOM with selected file information
+ */
 function updateFileUI(file) {
-    const preview = document.getElementById('originalPreview');
-    const size = document.getElementById('originalSize');
-    const dimensions = document.getElementById('originalDimensions');
-    const optionsSection = document.getElementById('optionsSection');
-    const previewSection = document.getElementById('previewSection');
+    const UI = {
+        preview: document.getElementById('originalPreview'),
+        size: document.getElementById('originalSize'),
+        dim: document.getElementById('originalDimensions'),
+        opt: document.getElementById('optionsSection'),
+        pre: document.getElementById('previewSection')
+    };
 
     if (store.currentFileType === 'image') {
         const reader = new FileReader();
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                if (preview) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
+                if (UI.preview) {
+                    UI.preview.src = e.target.result;
+                    UI.preview.style.display = 'block';
                 }
-                if (size) size.textContent = formatFileSize(file.size);
-                if (dimensions) dimensions.textContent = `${img.width} × ${img.height}`;
+                if (UI.size) UI.size.textContent = formatFileSize(file.size);
+                if (UI.dim) UI.dim.textContent = `${img.width} × ${img.height}`;
 
-                optionsSection?.classList.add('active');
-                previewSection?.classList.add('active');
+                UI.opt?.classList.add('active');
+                UI.pre?.classList.add('active');
             };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
     } else {
-        if (preview) preview.style.display = 'none';
-        if (size) size.textContent = formatFileSize(file.size);
-        if (dimensions) dimensions.textContent = 'PDF Document';
+        // PDF Workflow
+        if (UI.preview) UI.preview.style.display = 'none';
+        if (UI.size) UI.size.textContent = formatFileSize(file.size);
+        if (UI.dim) UI.dim.textContent = 'PDF Document';
 
-        optionsSection?.classList.add('active');
-        previewSection?.classList.add('active');
+        UI.opt?.classList.add('active');
+        
+        // Hide standard preview stats for PDF Editor mode
+        if (store.activeTool === 'PDF Editor') {
+            UI.pre?.classList.remove('active');
+        } else {
+            UI.pre?.classList.add('active');
+        }
     }
 }
 
+/**
+ * Setup Drag & Drop listeners
+ */
 export function initDragAndDrop() {
     const section = document.getElementById('uploadSection');
     if (!section) return;
@@ -73,5 +96,5 @@ export function initDragAndDrop() {
         });
     });
 
-    section.addEventListener('click', () => document.getElementById('fileInput')?.click());
+    section.onclick = () => document.getElementById('fileInput')?.click();
 }
