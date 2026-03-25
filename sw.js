@@ -1,5 +1,5 @@
 // PWA Service Worker for KBify
-const CACHE_NAME = 'kbify-v2.1';
+const CACHE_NAME = 'kbify-v1.1';
 const ASSETS = [
     './',
     './index.html',
@@ -37,13 +37,15 @@ self.addEventListener('activate', (e) => {
                 keys.filter(key => key !== CACHE_NAME)
                     .map(key => caches.delete(key))
             );
-        })
+        }).then(() => self.clients.claim()) // Claim control immediately
     );
 });
 
-// Fetch Event (Cache-First Strategy)
+// Fetch Event (Network-First Strategy)
 self.addEventListener('fetch', (e) => {
     e.respondWith(
-        caches.match(e.request).then((res) => res || fetch(e.request))
+        fetch(e.request).catch(() => {
+            return caches.match(e.request);
+        })
     );
 });
