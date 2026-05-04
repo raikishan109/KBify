@@ -111,7 +111,7 @@ h1 {
     border: none;
     width: 45px;
     height: 45px;
-    display: flex;
+    display: none; /* Hidden on PC */
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -120,6 +120,12 @@ h1 {
     -webkit-tap-highlight-color: transparent;
     outline: none;
     border-radius: 12px;
+}
+
+@media (max-width: 1024px) {
+    .menu-toggle {
+        display: flex;
+    }
 }
 
 .menu-toggle:hover {
@@ -257,7 +263,15 @@ h1 {
 
 .container {
     margin-top: var(--navbar-height);
+    margin-left: 240px; /* Sidebar offset on PC */
     flex: 1;
+    transition: margin-left 0.4s ease;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        margin-left: 0;
+    }
 }
 
 .file-type-tabs {
@@ -1004,6 +1018,12 @@ input[type="file"] {
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+@media (min-width: 1025px) {
+    .sidebar-overlay {
+        display: none !important;
+    }
+}
+
 .sidebar-overlay.active {
     opacity: 1;
     visibility: visible;
@@ -1012,20 +1032,27 @@ input[type="file"] {
 .sidebar {
     position: fixed;
     top: var(--navbar-height);
-    left: -240px;
+    left: 0; /* Open by default on PC */
     width: 240px;
     height: calc(100vh - var(--navbar-height));
     background: var(--bg-secondary);
     border-right: 2px solid var(--border-color);
-    z-index: 998;
+    z-index: 1000;
     padding: 1rem;
     padding-top: 1.5rem;
-    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.3);
+    box-shadow: none;
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.sidebar.active {
-    transform: translateX(240px);
+@media (max-width: 1024px) {
+    .sidebar {
+        left: -240px;
+        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.3);
+        z-index: 998;
+    }
+    .sidebar.active {
+        transform: translateX(240px);
+    }
 }
 
 .sidebar-header {
@@ -1041,11 +1068,17 @@ input[type="file"] {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    display: flex;
+    display: none; /* Hidden on PC */
     align-items: center;
     justify-content: center;
     cursor: pointer;
     color: var(--text-primary);
+}
+
+@media (max-width: 1024px) {
+    .sidebar-close {
+        display: flex;
+    }
 }
 
 .sidebar-nav {
