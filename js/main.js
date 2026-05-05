@@ -44,7 +44,7 @@ function setupEvents() {
     // Navigation - Sidebar & Tools
     on('.dashboard-nav', 'click', (e) => (e.preventDefault(), switchSection('dashboard'), toggleSidebar()));
     on('.image-nav',     'click', (e) => (e.preventDefault(), switchSection('image'),    toggleSidebar()));
-    on('.doc-nav',       'click', (e) => (e.preventDefault(), switchSection('pdf'),      toggleSidebar()));
+    on('.pdf-nav',       'click', (e) => (e.preventDefault(), switchSection('pdf'),      toggleSidebar()));
 
     // Automatic tool detection from grid clicks
     on('.tool-card', 'click', (e, card) => {

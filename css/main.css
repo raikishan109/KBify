@@ -53,6 +53,10 @@ header {
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
@@ -159,9 +163,11 @@ h1 {
 /* Tool Grid Styles (5 cards per row) */
 .tool-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    margin: 2rem 0;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem auto;
+    max-width: 1100px;
+    justify-content: center;
     animation: fadeIn 0.8s ease;
 }
 
@@ -224,12 +230,12 @@ h1 {
     display: block;
 }
 
-@media (max-width: 1024px) {
-    .tool-grid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1200px) {
+    .tool-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 }
 
 @media (max-width: 640px) {
-    .tool-grid { grid-template-columns: repeat(2, 1fr); }
+    .tool-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
 }
 
 .brand-name {
@@ -263,14 +269,24 @@ h1 {
 
 .container {
     margin-top: var(--navbar-height);
-    margin-left: 240px; /* Sidebar offset on PC */
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1440px; /* 1200px content + 240px sidebar offset */
+    padding-left: calc(240px + 2rem);
+    padding-right: 2rem;
     flex: 1;
-    transition: margin-left 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
 }
 
 @media (max-width: 1024px) {
     .container {
-        margin-left: 0;
+        margin-left: auto;
+        padding-left: 2rem;
+        max-width: 1200px;
     }
 }
 
@@ -1120,11 +1136,30 @@ input[type="file"] {
 
 .footer {
     text-align: center;
-    padding: 2rem;
+    padding: 3rem 0;
     margin-top: auto;
+    margin-left: -2rem; /* Pull into container padding */
+    margin-right: -2rem;
+    width: calc(100% + 4rem);
     color: var(--text-secondary);
     font-size: 0.9rem;
     border-top: 1px solid var(--border-color);
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .footer {
+        margin-left: -2rem;
+        margin-right: -2rem;
+        width: calc(100% + 4rem);
+    }
+}
+
+@media (max-width: 1024px) {
+    .footer {
+        margin-top: auto; /* Restore sticky behavior on mobile */
+        padding: 3rem 0;
+    }
 }
 
 .footer p {
