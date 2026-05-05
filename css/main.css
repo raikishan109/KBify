@@ -1173,6 +1173,15 @@ input[type="file"] {
     transition: opacity 0.3s ease;
 }
 
+.insolze-text {
+    background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f97316 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
 .footer a:hover {
     opacity: 0.8;
 }
