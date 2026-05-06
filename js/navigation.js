@@ -85,6 +85,9 @@ function renderTool(toolName) {
     const isPDF = tool.type === 'pdf';
     const isEditor = toolName === 'PDF Editor';
 
+    const isConverter = toolName === 'Image Converter';
+    const isMerger = toolName === 'Merge PDF';
+
     UI.toolDashboard.style.display = 'none';
     UI.mainCompressorCard.classList.add('active');
     UI.activeToolIndicator.textContent = toolName;
@@ -94,21 +97,30 @@ function renderTool(toolName) {
     // Dynamic Subtitle
     UI.mainSubtitle.textContent = isEditor 
         ? "Click anywhere on the PDF pages to add new text. Drag to move, or click text to edit."
-        : `Upload your file to begin ${toolName.toLowerCase()}`;
+        : `Upload your ${isMerger || toolName === 'Bulk Compress' ? 'files' : 'file'} to begin ${toolName.toLowerCase()}`;
     
     // Toggle Tool-Specific UI Elements
-    UI.imageOptions.style.display = isPDF ? 'none' : 'block';
-    UI.pdfOptions.style.display = (isPDF && !isEditor) ? 'block' : 'none';
+    UI.imageOptions.style.display = (isPDF || isConverter) ? 'none' : 'block';
+    UI.pdfOptions.style.display = (isPDF && !isEditor && !isMerger) ? 'block' : 'none';
     UI.pdfEditorWorkspace.style.display = isEditor ? 'block' : 'none';
+    UI.converterOptions.style.display = isConverter ? 'block' : 'none';
+    UI.mergerOptions.style.display = isMerger ? 'block' : 'none';
     
     // Manage Global Sections visibility
-    if (isEditor) {
+    if (isEditor || isMerger) {
         UI.previewSection.classList.remove('active');
         UI.actionButtons.classList.remove('active');
     }
     
     // Update Button Text
-    UI.processBtn.textContent = isEditor ? 'Save & Download' : (isPDF ? 'Process PDF' : 'Compress Now');
+    UI.processBtn.textContent = isEditor ? 'Save & Download' : (isMerger ? 'Merge & Save' : (isPDF ? 'Process PDF' : 'Compress Now'));
+
+    // Multi-file support
+    if (isMerger || toolName === 'Bulk Compress') {
+        UI.fileInput.setAttribute('multiple', 'true');
+    } else {
+        UI.fileInput.removeAttribute('multiple');
+    }
 
     // Trigger visual editor if file already exists
     if (isEditor && store.originalFile) {
@@ -153,5 +165,7 @@ const UI = {
     get previewSection() { return document.getElementById('previewSection'); },
     get actionButtons() { return document.getElementById('actionButtons'); },
     get processBtn() { return document.getElementById('processActionButton'); },
-    get customSizeInput() { return document.getElementById('customSize'); }
+    get customSizeInput() { return document.getElementById('customSize'); },
+    get converterOptions() { return document.getElementById('converterOptions'); },
+    get mergerOptions() { return document.getElementById('mergerOptions'); }
 };

@@ -72,6 +72,12 @@ function setupEvents() {
         btn.classList.add('active');
     });
 
+    // Converter Format Selection
+    on('#converterOptions .size-btn', 'click', (e, btn) => {
+        document.querySelectorAll('#converterOptions .size-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    });
+
     // Quality Control
     on('#qualitySlider', 'input', (e) => {
         const valEl = document.getElementById('qualityValue');

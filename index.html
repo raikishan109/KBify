@@ -28,13 +28,14 @@
                 </svg>
             </button>
             <div class="navbar-brand">
-            <img src="assets/logo.svg" alt="KBify Logo" class="navbar-logo">
-            <div class="brand-text-wrapper">
-                <div class="brand-name">
-                    <span class="kb">KB</span><span class="ify">ify</span>
+                <img src="assets/logo.svg" alt="KBify Logo" class="navbar-logo">
+                <div class="brand-text-wrapper">
+                    <div class="brand-name">
+                        <span class="kb">KB</span><span class="ify">ify</span>
+                        <span class="early-access-tag">Early Access</span>
+                    </div>
+                    <div class="brand-subtext">2026</div>
                 </div>
-                <div class="brand-subtext">2026</div>
-            </div>
             </div>
         </div>
         <div class="theme-toggle" role="button" aria-label="Toggle Dark/Light Mode" tabindex="0">
@@ -129,6 +130,29 @@
                             <div class="size-options">
                                 <button class="size-btn" id="rotatePDF">Rotate 90°</button>
                                 <button class="size-btn active" id="optimizePDF">Basic Edit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="converterOptions" style="display: none;">
+                        <div class="option-group">
+                            <label class="option-label">Target Format</label>
+                            <div class="size-options">
+                                <button class="size-btn active" data-format="image/jpeg">JPG</button>
+                                <button class="size-btn" data-format="image/png">PNG</button>
+                                <button class="size-btn" data-format="image/webp">WEBP</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="mergerOptions" style="display: none;">
+                        <div class="option-group">
+                            <label class="option-label">Merge Settings</label>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                                Upload multiple PDF files to combine them into a single document.
+                            </p>
+                            <div id="selectedFilesList" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto; background: var(--bg-tertiary); padding: 1rem; border-radius: 8px;">
+                                <!-- File list will appear here -->
                             </div>
                         </div>
                     </div>
@@ -228,6 +252,7 @@
     <footer class="footer">
         <p>© 2026 KBify. All rights reserved.</p>
         <p>Built By <a href="https://insolze.in" target="_blank" rel="noopener noreferrer"><span class="insolze-text">Team InSolze</span></a></p>
+        <p class="footer-version">v1.0</p>
     </footer>
     </div>
 

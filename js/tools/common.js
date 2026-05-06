@@ -4,6 +4,7 @@ import { Toast } from '../utils/ui-utils.js';
 
 export function reset() {
     store.originalFile = null;
+    store.originalFiles = [];
     store.compressedBlob = null;
     store.progress = 0;
 

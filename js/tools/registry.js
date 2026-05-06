@@ -57,6 +57,20 @@ export const TOOLS = {
         icon: EDIT_ICON,
         color: '#f59e0b',
         hint: 'Modify your PDF documents'
+    },
+    'Image Converter': {
+        type: 'image',
+        accept: 'image/jpeg,image/png,image/webp',
+        icon: BULK_ICON,
+        color: '#10b981',
+        hint: 'Convert between JPG, PNG, and WEBP'
+    },
+    'Merge PDF': {
+        type: 'pdf',
+        accept: 'application/pdf',
+        icon: DOC_ICON,
+        color: '#8b5cf6',
+        hint: 'Combine multiple PDFs into one'
     }
 };
 

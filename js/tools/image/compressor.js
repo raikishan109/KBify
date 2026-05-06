@@ -4,10 +4,19 @@ import { Toast, formatFileSize } from '../../utils/ui-utils.js';
 import { Modal } from '../../components/Modal.js';
 import { compressPDF } from '../pdf/compressor.js';
 import { editPDF } from '../pdf/editor.js';
+import { convertImage } from './converter.js';
+import { mergePDFs } from '../pdf/merger.js';
 
 export async function processFile() {
-    if (!store.originalFile) {
+    const isMultiFileTool = store.activeTool === 'Merge PDF' || store.activeTool === 'Bulk Compress';
+    
+    if (!store.originalFile && !isMultiFileTool) {
         Toast.show(`Please select ${store.currentFileType === 'pdf' ? 'a PDF' : 'an image'} first`, 'error');
+        return;
+    }
+
+    if (isMultiFileTool && (!store.originalFiles || store.originalFiles.length < 2)) {
+        Toast.show('Please select at least 2 files.', 'error');
         return;
     }
 
@@ -17,6 +26,14 @@ export async function processFile() {
     
     if (store.activeTool === 'PDF Editor') {
         return await editPDF();
+    }
+
+    if (store.activeTool === 'Image Converter') {
+        return await convertImage();
+    }
+
+    if (store.activeTool === 'Merge PDF') {
+        return await mergePDFs();
     }
 
     const targetSizeKB = parseInt(document.getElementById('customSize')?.value);
@@ -174,7 +191,18 @@ export function downloadFile() {
     const url = URL.createObjectURL(store.compressedBlob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `compressed_${store.originalFile.name}`;
+    
+    let filename = `kbify_${Date.now()}`;
+    if (store.activeTool === 'Merge PDF') {
+        filename = 'merged_document.pdf';
+    } else if (store.activeTool === 'Image Converter') {
+        const ext = store.compressedBlob.type.split('/')[1];
+        filename = `converted_${store.originalFile.name.split('.')[0]}.${ext}`;
+    } else {
+        filename = `compressed_${store.originalFile ? store.originalFile.name : 'file'}`;
+    }
+    
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
 }

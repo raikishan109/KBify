@@ -19,6 +19,7 @@ const storage = {
 
 export const store = new Proxy({
     originalFile: null,
+    originalFiles: [],
     compressedBlob: null,
     selectedSize: 'custom',
     currentFileType: 'image',

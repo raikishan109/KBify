@@ -6,8 +6,30 @@ import { Toast, formatFileSize } from './ui-utils.js';
  * Entry point for file selection from input
  */
 export function handleFileSelect(e) {
-    const file = e.target.files[0];
-    if (file) handleFile(file);
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+        if (UI.fileInput.hasAttribute('multiple')) {
+            handleMultipleFiles(files);
+        } else {
+            handleFile(files[0]);
+        }
+    }
+}
+
+export function handleMultipleFiles(files) {
+    // Basic validation for multiple files
+    const validFiles = files.filter(file => {
+        if (store.currentFileType === 'pdf' && !file.type.includes('pdf')) return false;
+        if (store.currentFileType === 'image' && !file.type.match('image/(jpeg|png|webp)')) return false;
+        return true;
+    });
+
+    if (validFiles.length !== files.length) {
+        Toast.show('Some files were skipped due to invalid format.', 'warning');
+    }
+
+    store.originalFiles = validFiles;
+    updateMultiFileUI(validFiles);
 }
 
 /**
@@ -34,7 +56,7 @@ export function handleFile(file) {
  * Update the DOM with selected file information
  */
 function updateFileUI(file) {
-    const UI = {
+    const UI_ELS = {
         preview: document.getElementById('originalPreview'),
         size: document.getElementById('originalSize'),
         dim: document.getElementById('originalDimensions'),
@@ -47,34 +69,52 @@ function updateFileUI(file) {
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                if (UI.preview) {
-                    UI.preview.src = e.target.result;
-                    UI.preview.style.display = 'block';
+                if (UI_ELS.preview) {
+                    UI_ELS.preview.src = e.target.result;
+                    UI_ELS.preview.style.display = 'block';
                 }
-                if (UI.size) UI.size.textContent = formatFileSize(file.size);
-                if (UI.dim) UI.dim.textContent = `${img.width} × ${img.height}`;
+                if (UI_ELS.size) UI_ELS.size.textContent = formatFileSize(file.size);
+                if (UI_ELS.dim) UI_ELS.dim.textContent = `${img.width} × ${img.height}`;
 
-                UI.opt?.classList.add('active');
-                UI.pre?.classList.add('active');
+                UI_ELS.opt?.classList.add('active');
+                UI_ELS.pre?.classList.add('active');
             };
             img.src = e.target.result;
         };
         reader.readAsDataURL(file);
     } else {
         // PDF Workflow
-        if (UI.preview) UI.preview.style.display = 'none';
-        if (UI.size) UI.size.textContent = formatFileSize(file.size);
-        if (UI.dim) UI.dim.textContent = 'PDF Document';
+        if (UI_ELS.preview) UI_ELS.preview.style.display = 'none';
+        if (UI_ELS.size) UI_ELS.size.textContent = formatFileSize(file.size);
+        if (UI_ELS.dim) UI_ELS.dim.textContent = 'PDF Document';
 
-        UI.opt?.classList.add('active');
+        UI_ELS.opt?.classList.add('active');
         
         // Hide standard preview stats for PDF Editor mode
-        if (store.activeTool === 'PDF Editor') {
-            UI.pre?.classList.remove('active');
+        if (store.activeTool === 'PDF Editor' || store.activeTool === 'Merge PDF') {
+            UI_ELS.pre?.classList.remove('active');
         } else {
-            UI.pre?.classList.add('active');
+            UI_ELS.pre?.classList.add('active');
         }
     }
+}
+
+function updateMultiFileUI(files) {
+    const list = document.getElementById('selectedFilesList');
+    const options = document.getElementById('optionsSection');
+    if (!list || !options) return;
+
+    options.classList.add('active');
+    list.innerHTML = files.map((file, index) => `
+        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-secondary); padding: 0.5rem 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.85rem; max-width: 70%;">
+                ${index + 1}. ${file.name}
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                ${formatFileSize(file.size)}
+            </div>
+        </div>
+    `).join('');
 }
 
 /**
@@ -91,10 +131,19 @@ export function initDragAndDrop() {
             else if (event === 'dragleave') section.classList.remove('drag-over');
             else {
                 section.classList.remove('drag-over');
-                if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+                const files = Array.from(e.dataTransfer.files);
+                if (files.length > 1 || UI_ELS.fileInput.hasAttribute('multiple')) {
+                    handleMultipleFiles(files);
+                } else if (files.length === 1) {
+                    handleFile(files[0]);
+                }
             }
         });
     });
 
     section.onclick = () => document.getElementById('fileInput')?.click();
 }
+
+const UI_ELS = {
+    get fileInput() { return document.getElementById('fileInput'); }
+};
