@@ -42,16 +42,29 @@ self.addEventListener('activate', (e) => {
     );
 });
 
-// Fetch Event (Network-First Strategy)
+// Fetch Event (Network-First Strategy with safety checks)
 self.addEventListener('fetch', (e) => {
+    // Skip non-GET requests and non-http/https schemes
+    if (e.request.method !== 'GET' || !e.request.url.startsWith('http')) {
+        return;
+    }
+
     e.respondWith(
         fetch(e.request)
             .then((res) => {
-                // Update cache with latest
-                const clone = res.clone();
-                caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
+                // Only cache valid responses
+                if (res && res.status === 200 && res.type === 'basic') {
+                    const clone = res.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(e.request, clone).catch(err => {
+                            // Silently ignore cache write errors
+                        });
+                    });
+                }
                 return res;
             })
-            .catch(() => caches.match(e.request))
+            .catch(() => {
+                return caches.match(e.request);
+            })
     );
 });

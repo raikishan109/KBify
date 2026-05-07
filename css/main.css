@@ -76,11 +76,12 @@ h1 {
 .navbar {
     position: relative; /* Not fixed anymore, stays in flex flow */
     width: 100%;
-    height: var(--navbar-height);
+    min-height: var(--navbar-height);
+    height: auto;
     flex-shrink: 0;
     background: var(--bg-secondary);
     border-bottom: 2px solid var(--border-color);
-    padding: 0 2rem;
+    padding: 0.5rem 2rem;
     z-index: 10000;
     box-shadow: var(--shadow);
     display: flex;

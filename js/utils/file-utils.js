@@ -36,20 +36,32 @@ export function handleMultipleFiles(files) {
  * Validation and State update
  */
 export function handleFile(file) {
-    // 1. Validate Image Type
-    if (store.currentFileType === 'image' && !file.type.match('image/(jpeg|png|webp)')) {
-        Toast.show('Please select a valid image file (JPG, PNG, or WEBP)', 'error');
-        return;
+    if (!file) return;
+
+    // 1. Validate Image Type - More permissive for mobile browsers
+    if (store.currentFileType === 'image') {
+        const isImage = file.type.startsWith('image/') || 
+                       file.name.toLowerCase().match(/\.(jpg|jpeg|png|webp|heic)$/);
+        
+        if (!isImage) {
+            Toast.show('Please select a valid image file (JPG, PNG, or WEBP)', 'error');
+            return;
+        }
     }
 
-    // 2. Validate PDF Type (Permissive check for different browser MIME types)
-    if (store.currentFileType === 'pdf' && !file.type.includes('pdf')) {
+    // 2. Validate PDF Type
+    if (store.currentFileType === 'pdf' && !file.type.includes('pdf') && !file.name.toLowerCase().endsWith('.pdf')) {
         Toast.show('Please select a valid PDF file', 'error');
         return;
     }
 
     store.originalFile = file;
-    updateFileUI(file);
+    try {
+        updateFileUI(file);
+    } catch (err) {
+        console.error('UI Update failed:', err);
+        Toast.show('Failed to process file. Please try again.', 'error');
+    }
 }
 
 /**
@@ -132,7 +144,7 @@ export function initDragAndDrop() {
             else {
                 section.classList.remove('drag-over');
                 const files = Array.from(e.dataTransfer.files);
-                if (files.length > 1 || UI_ELS.fileInput.hasAttribute('multiple')) {
+                if (files.length > 1 || UI.fileInput.hasAttribute('multiple')) {
                     handleMultipleFiles(files);
                 } else if (files.length === 1) {
                     handleFile(files[0]);
@@ -144,6 +156,6 @@ export function initDragAndDrop() {
     section.onclick = () => document.getElementById('fileInput')?.click();
 }
 
-const UI_ELS = {
+const UI = {
     get fileInput() { return document.getElementById('fileInput'); }
 };
