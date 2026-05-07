@@ -8,6 +8,7 @@ import { processFile, downloadFile } from './tools/image/compressor.js';
 import { reset } from './tools/common.js';
 import { Modal } from './components/Modal.js';
 import { Toast } from './utils/ui-utils.js';
+let deferredPrompt;
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -90,15 +91,47 @@ function setupEvents() {
     on('.modal-buttons .modal-btn.secondary', 'click', Modal.close);
     on('.modal-buttons .modal-btn:not(.secondary)', 'click', () => (downloadFile(), Modal.close()));
     
-    // Bottom Action Buttons
     const bottomBtns = document.querySelectorAll('#actionButtons .btn');
     bottomBtns[0]?.addEventListener('click', downloadFile);
     bottomBtns[1]?.addEventListener('click', reset);
+
+    // PWA Install Logic
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const banner = document.getElementById('pwaInstallBanner');
+        if (banner) banner.classList.add('active');
+    });
+
+    const handleInstall = async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            document.getElementById('pwaInstallBanner')?.classList.remove('active');
+        }
+        deferredPrompt = null;
+    };
+
+    on('#installBannerBtn', 'click', handleInstall);
+    on('#closeBannerBtn', 'click', () => {
+        document.getElementById('pwaInstallBanner')?.classList.remove('active');
+    });
 }
 
 function bootstrap() {
-    if (store.activeTool) openTool(store.activeTool);
-    else switchSection(store.currentSection);
+    const urlParams = new URLSearchParams(window.location.search);
+    const toolParam = urlParams.get('tool');
+
+    if (toolParam) {
+        openTool(toolParam);
+        // Clean URL without reload
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (store.activeTool) {
+        openTool(store.activeTool);
+    } else {
+        switchSection(store.currentSection);
+    }
 }
 
 function on(selector, event, callback) {

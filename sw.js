@@ -45,8 +45,13 @@ self.addEventListener('activate', (e) => {
 // Fetch Event (Network-First Strategy)
 self.addEventListener('fetch', (e) => {
     e.respondWith(
-        fetch(e.request).catch(() => {
-            return caches.match(e.request);
-        })
+        fetch(e.request)
+            .then((res) => {
+                // Update cache with latest
+                const clone = res.clone();
+                caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
+                return res;
+            })
+            .catch(() => caches.match(e.request))
     );
 });

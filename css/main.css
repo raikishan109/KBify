@@ -358,7 +358,7 @@ h1 {
     background: var(--bg-secondary);
     border: 2px solid var(--border-color);
     padding: 0.875rem 2rem;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
@@ -476,7 +476,7 @@ input[type="file"] {
     color: var(--bg-primary);
     border: none;
     padding: 0.875rem 2rem;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -539,7 +539,7 @@ input[type="file"] {
     background: var(--bg-tertiary);
     border: 2px solid var(--border-color);
     padding: 1rem;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
@@ -560,7 +560,7 @@ input[type="file"] {
 .custom-input {
     width: 100%;
     padding: 0.875rem;
-    border-radius: 12px;
+    border-radius: 8px;
     border: 2px solid var(--border-color);
     background: var(--bg-tertiary);
     color: var(--text-primary);
@@ -883,7 +883,7 @@ input[type="file"] {
     color: white;
     border: none;
     padding: 1rem;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -1306,6 +1306,7 @@ input[type="file"] {
         margin-left: -0.75rem;
         margin-right: -0.75rem;
         width: calc(100% + 1.5rem);
+        margin-bottom: env(safe-area-inset-bottom, 1rem); /* Dynamic safe area or 1rem fallback */
     }
 }
 
@@ -1414,4 +1415,120 @@ input[type="file"] {
 
 .pdf-text-element:hover .pdf-delete-btn {
     display: flex;
+}
+
+/* Install Banner Styles */
+.install-banner {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(150%);
+    width: 90%;
+    max-width: 500px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    z-index: 10002;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    backdrop-filter: blur(10px);
+}
+
+.install-banner.active {
+    transform: translateX(-50%) translateY(0);
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.banner-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    padding: 0.5rem;
+    flex-shrink: 0;
+}
+
+.banner-icon img {
+    width: 100%;
+    height: 100%;
+}
+
+.banner-text {
+    flex: 1;
+}
+
+.banner-text h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: var(--text-primary);
+}
+
+.banner-text p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.banner-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.banner-actions .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+    .install-banner {
+        bottom: 1rem;
+        width: calc(100% - 2rem);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+    }
+    .banner-content {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        grid-template-areas: 
+            "icon text"
+            "icon actions";
+        align-items: center;
+        text-align: left;
+        gap: 0.25rem 0.75rem;
+    }
+    .banner-icon {
+        grid-area: icon;
+        width: 40px;
+        height: 40px;
+        padding: 0.4rem;
+    }
+    .banner-text {
+        grid-area: text;
+        margin: 0;
+    }
+    .banner-text h3 {
+        font-size: 0.9rem;
+    }
+    .banner-text p {
+        font-size: 0.7rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .banner-actions {
+        grid-area: actions;
+        justify-content: flex-start;
+        margin-top: 2px;
+    }
+    .banner-actions .btn {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.75rem;
+    }
 }

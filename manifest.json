@@ -25,5 +25,25 @@
       "type": "image/svg+xml",
       "purpose": "maskable"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "JPG Compressor",
+      "short_name": "JPG",
+      "url": "./index.html?tool=JPG%20COMPRESSOR",
+      "icons": [{ "src": "assets/logo.svg", "sizes": "any" }]
+    },
+    {
+      "name": "PDF Compressor",
+      "short_name": "PDF",
+      "url": "./index.html?tool=PDF%20COMPRESSOR",
+      "icons": [{ "src": "assets/logo.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Image Converter",
+      "short_name": "Converter",
+      "url": "./index.html?tool=IMAGE%20CONVERTER",
+      "icons": [{ "src": "assets/logo.svg", "sizes": "any" }]
+    }
   ]
 }
