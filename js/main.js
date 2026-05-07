@@ -39,6 +39,7 @@ function setupEvents() {
     // Navbar & Settings
     on('#menuToggle', 'click', toggleSidebar);
     on('.theme-toggle', 'click', toggleTheme);
+    on('.navbar-brand', 'click', () => switchSection('dashboard'));
     on('#sidebarOverlay', 'click', toggleSidebar);
 
     // Navigation - Sidebar & Tools

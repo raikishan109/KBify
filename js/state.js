@@ -23,7 +23,7 @@ export const store = new Proxy({
     compressedBlob: null,
     selectedSize: 'custom',
     currentFileType: 'image',
-    activeTool: storage.getItem('activeTool') || null,
+    activeTool: storage.getItem('activeTool') ? storage.getItem('activeTool').toUpperCase() : null,
     currentSection: storage.getItem('currentSection') || 'dashboard',
     theme: storage.getItem('theme') || 'dark',
     isLoading: false,
