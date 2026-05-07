@@ -83,10 +83,10 @@ function renderTool(toolName) {
     if (!tool) return;
 
     const isPDF = tool.type === 'pdf';
-    const isEditor = toolName === 'PDF Editor';
+    const isEditor = toolName === 'PDF EDITOR';
 
-    const isConverter = toolName === 'Image Converter';
-    const isMerger = toolName === 'Merge PDF';
+    const isConverter = toolName === 'IMAGE CONVERTER';
+    const isMerger = toolName === 'MERGE PDF';
 
     UI.toolDashboard.style.display = 'none';
     UI.mainCompressorCard.classList.add('active');
@@ -97,7 +97,7 @@ function renderTool(toolName) {
     // Dynamic Subtitle
     UI.mainSubtitle.textContent = isEditor 
         ? "Click anywhere on the PDF pages to add new text. Drag to move, or click text to edit."
-        : `Upload your ${isMerger || toolName === 'Bulk Compress' ? 'files' : 'file'} to begin ${toolName.toLowerCase()}`;
+        : `Upload your ${isMerger || toolName === 'BULK COMPRESS' ? 'files' : 'file'} to begin ${toolName.toLowerCase()}`;
     
     // Toggle Tool-Specific UI Elements
     UI.imageOptions.style.display = (isPDF || isConverter) ? 'none' : 'block';
@@ -116,7 +116,7 @@ function renderTool(toolName) {
     UI.processBtn.textContent = isEditor ? 'Save & Download' : (isMerger ? 'Merge & Save' : (isPDF ? 'Process PDF' : 'Compress Now'));
 
     // Multi-file support
-    if (isMerger || toolName === 'Bulk Compress') {
+    if (isMerger || toolName === 'BULK COMPRESS') {
         UI.fileInput.setAttribute('multiple', 'true');
     } else {
         UI.fileInput.removeAttribute('multiple');

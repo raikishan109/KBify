@@ -9,63 +9,63 @@ const DOWNLOAD_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor
 const EDIT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
 
 export const TOOLS = {
-    'JPG Compressor': {
+    'JPG COMPRESSOR': {
         type: 'image',
         accept: 'image/jpeg',
         icon: UPLOAD_ICON,
         color: '#ff4d4d',
         hint: 'Supports JPG/JPEG images'
     },
-    'PNG Compressor': {
+    'PNG COMPRESSOR': {
         type: 'image',
         accept: 'image/png',
         icon: IMAGE_ICON,
         color: '#3b82f6',
         hint: 'Supports PNG images'
     },
-    'WEBP Compressor': {
+    'WEBP COMPRESSOR': {
         type: 'image',
         accept: 'image/webp',
         icon: DOWNLOAD_ICON,
         color: '#10b981',
         hint: 'Supports WEBP images'
     },
-    'Bulk Compress': {
+    'BULK COMPRESS': {
         type: 'image',
         accept: 'image/jpeg,image/png,image/webp',
         icon: BULK_ICON,
         color: '#8b5cf6',
         hint: 'Compress images in bulk'
     },
-    'Fast Squeeze': {
+    'FAST SQUEEZE': {
         type: 'image',
         accept: 'image/jpeg,image/png,image/webp',
         icon: FAST_ICON,
         color: '#f59e0b',
         hint: 'Optimized fast compression'
     },
-    'PDF Compressor': {
+    'PDF COMPRESSOR': {
         type: 'pdf',
         accept: 'application/pdf',
         icon: DOC_ICON,
         color: '#ef4444',
         hint: 'Supports PDF documents'
     },
-    'PDF Editor': {
+    'PDF EDITOR': {
         type: 'pdf',
         accept: 'application/pdf',
         icon: EDIT_ICON,
         color: '#f59e0b',
         hint: 'Modify your PDF documents'
     },
-    'Image Converter': {
+    'IMAGE CONVERTER': {
         type: 'image',
         accept: 'image/jpeg,image/png,image/webp',
         icon: BULK_ICON,
         color: '#10b981',
         hint: 'Convert between JPG, PNG, and WEBP'
     },
-    'Merge PDF': {
+    'MERGE PDF': {
         type: 'pdf',
         accept: 'application/pdf',
         icon: DOC_ICON,
@@ -76,15 +76,15 @@ export const TOOLS = {
 
 export const SECTIONS = {
     dashboard: {
-        title: 'KBify Ultimate Suite',
+        title: 'KBIFY ULTIMATE SUITE',
         subtitle: 'Choose a tool to start compressing your files'
     },
     image: {
-        title: 'KBify Image Suite',
+        title: 'KBIFY IMAGE SUITE',
         subtitle: 'Choose an image tool to start compressing'
     },
     pdf: {
-        title: 'KBify Document Suite',
+        title: 'KBIFY DOCUMENT SUITE',
         subtitle: 'Choose a document tool to start compressing'
     }
 };
