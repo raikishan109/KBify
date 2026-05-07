@@ -44,22 +44,32 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Scrollbar for a premium look */
-::-webkit-scrollbar {
-    width: 8px;
+/* Hide scrollbar for Chrome, Safari and Opera on mobile */
+@media (max-width: 768px) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    * {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 }
 
-::-webkit-scrollbar-track {
-    background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
+/* Custom Scrollbar for Desktop */
+@media (min-width: 769px) {
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-secondary);
+    }
 }
 
 .container {
@@ -1216,6 +1226,8 @@ input[type="file"] {
     left: 0; /* Open by default on PC */
     width: 240px;
     height: calc(100% - var(--navbar-height));
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide for sidebar too */
     background: var(--bg-secondary);
     border-right: 2px solid var(--border-color);
     z-index: 10001;
