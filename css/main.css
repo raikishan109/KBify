@@ -10,7 +10,6 @@
     --bg-secondary: #0a0a0a;
     --bg-tertiary: #141414;
     --accent-primary: #fafafa;
-    --accent-secondary: #fafafa;
     --accent-gradient: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
     --text-primary: #ffffff;
     --text-secondary: #a0aec0;
@@ -230,6 +229,26 @@ h1 {
     display: block;
 }
 
+.tool-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.back-to-tools {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8rem !important;
+}
+
+#activeToolIndicator {
+    font-weight: 700;
+    color: #ef4444;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 @media (max-width: 1200px) {
     .tool-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 }
@@ -261,13 +280,14 @@ h1 {
     font-weight: 800;
     text-transform: uppercase;
     padding: 3px 10px;
-    border-radius: 50px;
+    border-radius: 6px;
     background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
     color: #000;
     margin-left: 0.75rem;
     letter-spacing: 0.5px;
     display: inline-block;
     vertical-align: middle;
+    transform: translateY(-2px);
     box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
     animation: tagShine 2s infinite alternate;
 }
@@ -417,14 +437,21 @@ h1 {
 .upload-icon {
     width: 80px;
     height: 80px;
-    margin: 0 auto 1rem;
-    opacity: 0.6;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    box-shadow: 0 10px 20px rgba(239, 68, 68, 0.2);
 }
 
 .upload-icon svg {
     width: 100%;
     height: 100%;
-    fill: var(--text-primary);
+    stroke: white;
+    fill: none;
 }
 
 .upload-text {
@@ -787,13 +814,21 @@ input[type="file"] {
     width: 80px;
     height: 80px;
     margin: 0 auto 1.5rem;
+    background: var(--success);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
     animation: bounce 0.6s ease;
 }
 
 .modal-icon svg {
     width: 100%;
     height: 100%;
-    fill: var(--accent-primary);
+    stroke: white;
+    fill: none;
+    stroke-width: 3;
 }
 
 .modal-title {
@@ -946,21 +981,58 @@ input[type="file"] {
     }
 
     header {
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .tool-header {
+        margin-bottom: 1rem;
+    }
+
+    .back-to-tools {
+        padding: 0.4rem 0.75rem !important;
+        font-size: 0.7rem !important;
+    }
+
+    #activeToolIndicator {
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
     }
 
     .container {
         padding: 0.75rem;
+        gap: 1rem; /* Add gap between header and content */
     }
 
     .main-card {
-        padding: 1.5rem;
+        padding: 1.25rem;
         border-radius: 16px;
         border-width: 1px;
+        margin-bottom: 1rem;
     }
 
     .upload-section {
-        padding: 2rem 1rem;
+        padding: 1.5rem 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .upload-box {
+        padding: 1.25rem;
+    }
+
+    .upload-icon {
+        width: 56px;
+        height: 56px;
+        margin-bottom: 0.75rem;
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .upload-text {
+        font-size: 0.9rem;
+    }
+
+    .upload-hint {
+        font-size: 0.75rem;
     }
 
     .tool-grid {
@@ -997,6 +1069,13 @@ input[type="file"] {
 
     .navbar {
         padding: 0 1rem;
+    }
+
+    .footer {
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+        width: calc(100% + 1.5rem);
+        padding: 1.5rem 0;
     }
 
     .navbar-brand {
@@ -1215,13 +1294,16 @@ input[type="file"] {
         margin-left: -2rem;
         margin-right: -2rem;
         width: calc(100% + 4rem);
+        margin-top: auto; /* Restore sticky behavior on mobile */
+        padding: 3rem 0;
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .footer {
-        margin-top: auto; /* Restore sticky behavior on mobile */
-        padding: 3rem 0;
+        margin-left: -0.75rem;
+        margin-right: -0.75rem;
+        width: calc(100% + 1.5rem);
     }
 }
 
@@ -1255,7 +1337,7 @@ input[type="file"] {
     margin-top: 1rem;
     font-family: 'Outfit', sans-serif;
     letter-spacing: 1px;
-    text-transform: uppercase;
+    text-transform: none;
 }
 
 /* PDF Visual Editor Styles */

@@ -77,11 +77,11 @@
 
         <div class="main-card" id="mainCompressorCard">
             <!-- Back Button -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <button class="btn secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+            <div class="tool-header">
+                <button class="btn secondary back-to-tools">
                     ← Back to Tools
                 </button>
-                <div id="activeToolIndicator" style="font-weight: 700; color: #ef4444; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;"></div>
+                <div id="activeToolIndicator"></div>
             </div>
 
             <div class="card-body">
@@ -256,9 +256,39 @@
     </footer>
     </div>
 
-    <!-- Success Modal -->
     <div class="modal-overlay" id="successModal">
-
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2 class="modal-title">Compression Successful!</h2>
+            <div class="modal-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Original</span>
+                    <span class="stat-value" id="modalOriginalSize">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Compressed</span>
+                    <span class="stat-value" id="modalCompressedSize">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Reduction</span>
+                    <span class="stat-value" id="modalReduction">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Saved</span>
+                    <span class="stat-value" id="modalSavedSpace">-</span>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn secondary">Close</button>
+                <button class="modal-btn">Download Now</button>
+            </div>
+        </div>
+    </div>
     <script type="module" src="js/main.js"></script>
 </body>
 

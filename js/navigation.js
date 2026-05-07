@@ -48,7 +48,7 @@ export function initToolGrid() {
 
     grid.innerHTML = Object.entries(TOOLS).map(([name, config]) => `
         <div class="tool-card ${config.type}-tool" data-tool="${name}">
-            <div class="tool-card-icon" style="color: ${config.color}; background: ${config.color}1A;">
+            <div class="tool-card-icon" style="color: white; background: ${config.color};">
                 ${config.icon}
             </div>
             <div class="tool-card-title">${name}</div>
