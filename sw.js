@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kbify-v1.4';
+const CACHE_NAME = 'kbify-v1.5';
 const ASSETS = [
     './',
     './index.html',
@@ -30,15 +30,19 @@ self.addEventListener('install', (e) => {
     );
 });
 
-// Activate Event
+// Activate Event - Thorough cache clearing
 self.addEventListener('activate', (e) => {
     e.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
-                keys.filter(key => key !== CACHE_NAME)
-                    .map(key => caches.delete(key))
+                keys.map(key => {
+                    if (key !== CACHE_NAME) {
+                        console.log('Clearing old cache:', key);
+                        return caches.delete(key);
+                    }
+                })
             );
-        }).then(() => self.clients.claim()) // Claim control immediately
+        }).then(() => self.clients.claim())
     );
 });
 
