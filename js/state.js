@@ -23,7 +23,7 @@ export const store = new Proxy({
     compressedBlob: null,
     selectedSize: 'custom',
     currentFileType: 'image',
-    activeTool: storage.getItem('activeTool') ? storage.getItem('activeTool').toUpperCase() : null,
+    activeTool: null,  // Never persist — always start fresh
     currentSection: storage.getItem('currentSection') || 'dashboard',
     theme: storage.getItem('theme') || 'dark',
     isLoading: false,
@@ -33,7 +33,7 @@ export const store = new Proxy({
         target[key] = value;
         
         // Persist specific keys
-        if (['activeTool', 'currentSection', 'theme'].includes(key)) {
+        if (['currentSection', 'theme'].includes(key)) {
             storage.setItem(key, value);
         }
 

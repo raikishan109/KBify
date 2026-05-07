@@ -125,12 +125,10 @@ function bootstrap() {
 
     if (toolParam) {
         openTool(toolParam);
-        // Clean URL without reload
         window.history.replaceState({}, document.title, window.location.pathname);
-    } else if (store.activeTool) {
-        openTool(store.activeTool);
     } else {
-        switchSection(store.currentSection);
+        // Always start at dashboard on page load/reload
+        switchSection('dashboard');
     }
 }
 
