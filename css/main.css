@@ -1059,8 +1059,8 @@ input[type="file"] {
     }
 
     .container {
-        padding: 1.5rem;
-        padding-bottom: 6rem; /* Prevent last card from hiding behind footer */
+        padding: 1rem;
+        padding-bottom: 9rem; /* Increased to prevent content from being hidden behind fixed footer */
         gap: 0.75rem;
     }
 
@@ -1167,10 +1167,7 @@ input[type="file"] {
     }
 
     .footer {
-        margin-left: -0.75rem;
-        margin-right: -0.75rem;
-        width: calc(100% + 1.5rem);
-        padding: 0.5rem 0;
+        padding: 0.75rem 1rem;
     }
 
     .navbar-brand {
@@ -1224,8 +1221,7 @@ input[type="file"] {
     }
 
     .footer {
-        font-size: 0.75rem;
-        padding: 0.5rem 0;
+        font-size: 0.7rem;
         font-family: 'Outfit', sans-serif;
     }
 }

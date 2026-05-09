@@ -75,7 +75,8 @@ function updateSectionUI(sectionId) {
         card.style.display = (sectionId === 'dashboard' || tool?.type === sectionId) ? 'flex' : 'none';
     });
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const container = document.querySelector('.container');
+    if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function renderTool(toolName) {
